@@ -1,0 +1,58 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: runtimeops-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    container_name: runtimeops-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: runtimeops-api
+    restart: unless-stopped
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - "${BACKEND_PORT}:3001"
+    volumes:
+      - ./api:/app
+      - /app/node_modules
+    command: npm run start:dev
+
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    container_name: runtimeops-web
+    restart: unless-stopped
+    env_file:
+      - .env
+    depends_on:
+      - api
+    ports:
+      - "${FRONTEND_PORT}:3000"
+    volumes:
+      - ./web:/app
+      - /app/node_modules
+    command: npm run dev
+
+volumes:
+  postgres_data:
