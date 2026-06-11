@@ -87,6 +87,26 @@ export class ProjectsRepository {
     async deleteProject(userId: string, projectId: string) {
         await this.getProjectById(userId, projectId);
 
+        await this.db.activity.deleteMany({
+            where: {
+                projectId,
+            },
+        });
+
+        await this.db.deploymentLog.deleteMany({
+            where: {
+                deployment: {
+                    projectId,
+                },
+            },
+        });
+
+        await this.db.deployment.deleteMany({
+            where: {
+                projectId,
+            },
+        });
+
         return this.db.project.delete({
             where: {
                 id: projectId,

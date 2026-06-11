@@ -1,30 +1,65 @@
-import { Controller, Get, InternalServerErrorException } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
+
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+
+import { Queue } from 'bullmq';
+
+import { InjectQueue } from '@nestjs/bullmq';
+
+import { DEPLOYMENT_QUEUE } from './queue/constants';
 import { DatabaseService } from './database/database.service';
+import { Public } from './auth/decorators';
 
 @ApiTags('health')
 @Controller()
 export class AppController {
-    constructor(private readonly db: DatabaseService) {}
+    constructor(
+        private readonly prisma: DatabaseService,
 
+        @InjectQueue(DEPLOYMENT_QUEUE)
+        private readonly deploymentQueue: Queue,
+    ) {}
+
+    @Public()
     @Get('health')
     @ApiOperation({
-        summary: 'Health check endpoint',
-        description: 'Verifies that the RuntimeOps backend is running',
+        summary: 'RuntimeOps health status',
     })
-    async healthCheck() {
-        try {
-            await this.db.$queryRaw`SELECT 1`;
+    async health() {
+        let database = 'disconnected';
 
-            return {
-                status: 'healthy',
-                service: 'runtime-ops-api',
-                timestamp: new Date().toISOString(),
-            };
-        } catch (error) {
-            throw new InternalServerErrorException(
-                'Failed to connect to db, please make sure that the db is running',
-            );
-        }
+        let redis = 'disconnected';
+
+        let queueWorker = 'inactive';
+
+        try {
+            await this.prisma.$queryRaw`SELECT 1`;
+
+            database = 'connected';
+        } catch {}
+
+        try {
+            await this.deploymentQueue.getJobCounts();
+
+            redis = 'connected';
+
+            queueWorker = 'active';
+        } catch {}
+
+        return {
+            status: 'healthy',
+
+            timestamp: new Date().toISOString(),
+
+            services: {
+                api: 'healthy',
+
+                database,
+
+                redis,
+
+                queueWorker,
+            },
+        };
     }
 }

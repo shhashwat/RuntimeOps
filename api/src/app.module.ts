@@ -9,11 +9,16 @@ import { DeploymentsModule } from './deployments/deployments.module';
 import { QueueModule } from './queue/queue.module';
 import { ActivitiesModule } from './activities/activities.module';
 import { MetricsModule } from './metrics/metrics.module';
+import { BullModule } from '@nestjs/bullmq';
+import { DEPLOYMENT_QUEUE } from './queue/constants';
 
 @Module({
     imports: [
         ConfigModule.forRoot({
             isGlobal: true,
+        }),
+        BullModule.registerQueue({
+            name: DEPLOYMENT_QUEUE,
         }),
         DatabaseModule,
         AuthModule,
