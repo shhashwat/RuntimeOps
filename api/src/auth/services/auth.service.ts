@@ -12,7 +12,7 @@ import { ConfigService } from '@nestjs/config';
 
 import { Role } from '@prisma/client';
 
-import { LoginDto, RegisterDto } from '../dto';
+import { LoginDto, RegisterDto, UpdateProfileDto } from '../dto';
 import { AuthRepository } from '../repositories';
 
 @Injectable()
@@ -127,6 +127,20 @@ export class AuthService {
         await this.storeRefreshToken(user.id, tokens.refreshToken);
 
         return tokens;
+    }
+
+    async updateProfile(userId: string, dto: UpdateProfileDto) {
+        const data: any = {};
+
+        if (dto.name) {
+            data.name = dto.name;
+        }
+
+        if (dto.password) {
+            data.passwordHash = await this.hashData(dto.password);
+        }
+
+        return this.authRepository.updateUser(userId, data);
     }
 
     async logout(userId: string) {

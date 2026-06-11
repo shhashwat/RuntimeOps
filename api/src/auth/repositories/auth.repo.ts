@@ -72,6 +72,22 @@ export class AuthRepository {
         });
     }
 
+    async updateUser(
+        userId: string,
+        data: {
+            name?: string;
+            passwordHash?: string;
+        },
+    ) {
+        return this.db.user.update({
+            where: {
+                id: userId,
+            },
+
+            data,
+        });
+    }
+
     async deleteRefreshToken(id: string) {
         return this.db.refreshToken.delete({
             where: {

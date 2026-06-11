@@ -2,7 +2,13 @@
 
 import Link from "next/link";
 
-import { Activity, FolderKanban, LayoutDashboard, Rocket } from "lucide-react";
+import {
+  Activity,
+  FolderKanban,
+  LayoutDashboard,
+  Rocket,
+  User,
+} from "lucide-react";
 import { LogoutButton } from "../auth/logout-button";
 
 const links = [
@@ -28,6 +34,11 @@ const links = [
     label: "Activities",
     href: "/dashboard/activities",
     icon: Activity,
+  },
+  {
+    label: "Profile",
+    href: "/dashboard/profile",
+    icon: User,
   },
 ];
 

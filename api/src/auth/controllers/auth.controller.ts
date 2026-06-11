@@ -5,6 +5,7 @@ import {
     Get,
     HttpCode,
     HttpStatus,
+    Patch,
     Post,
 } from '@nestjs/common';
 
@@ -24,6 +25,7 @@ import {
     LoginDto,
     RefreshTokenDto,
     RegisterDto,
+    UpdateProfileDto,
 } from '../dto';
 
 import { AuthService } from '../services';
@@ -95,5 +97,14 @@ export class AuthController {
     })
     async me(@GetUser() user: User) {
         return user;
+    }
+
+    @Patch('me')
+    @ApiBearerAuth('access-token')
+    @ApiOperation({
+        summary: 'Update current user profile',
+    })
+    async updateProfile(@GetUser() user: User, @Body() dto: UpdateProfileDto) {
+        return this.authService.updateProfile(user.id, dto);
     }
 }

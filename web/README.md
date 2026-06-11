@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RuntimeOps Frontend
 
-## Getting Started
+Next.js frontend for RuntimeOps.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Landing Page
+- Login & Registration
+- Dashboard Metrics
+- Project Management
+- Deployment Monitoring
+- Activity Feed
+- User Profile Management
+- Responsive Design
+
+## Technology Stack
+
+- Next.js 15
+- React 19
+- TypeScript
+- Tailwind CSS
+- TanStack Query
+- Axios
+
+## Pages
+
+```text
+/
+├── login
+├── register
+├── dashboard
+│   ├── projects
+│   ├── deployments
+│   ├── activities
+│   └── profile
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## API Integration
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The frontend communicates with the NestJS backend through REST APIs and uses TanStack Query for server state management.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Responsive Design
 
-## Learn More
+RuntimeOps supports:
 
-To learn more about Next.js, take a look at the following resources:
+- Desktop
+- Tablet
+- Mobile
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Mobile Preview
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+![mobile-dashboard](../docs/screenshots/mobile-dashboard.png)
