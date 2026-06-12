@@ -123,10 +123,13 @@ This will start:
 
 ### Seed Database
 
-After containers are running, seed the database:
+After containers are running, configure the database:
 
 ```bash
 cd api
+npm i
+npx prisma generate
+npx prisma migrate deploy
 npx tsx prisma/seed.ts
 ```
 
