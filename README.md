@@ -105,6 +105,8 @@ git clone <repository-url>
 cd RuntimeOps
 ```
 
+Set up env variables from .env.example files present in the root, web and api
+
 ### Start Infrastructure & Applications
 
 ```bash
