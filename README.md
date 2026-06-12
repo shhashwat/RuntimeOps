@@ -126,7 +126,7 @@ This will start:
 After containers are running, configure the database:
 
 ```bash
-cd api
+docker exec -it runtimeops-api sh
 npm i
 npx prisma generate
 npx prisma migrate deploy
