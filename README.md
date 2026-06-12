@@ -102,13 +102,21 @@ Next.js, NestJS, PostgreSQL, Redis, and BullMQ.
 
 ```bash
 git clone <repository-url>
-cd runtime_ops
+cd RuntimeOps
 ```
 
 ### Start Infrastructure & Applications
 
 ```bash
 docker compose up --build
+```
+
+then at folder level:
+
+```bash
+cd api && npm i
+cd ..
+cd web && npm i
 ```
 
 This will start:
