@@ -113,14 +113,6 @@ Set up env variables from .env.example files present in the root, web and api
 docker compose up --build
 ```
 
-then at folder level:
-
-```bash
-cd api && npm i
-cd ..
-cd web && npm i
-```
-
 This will start:
 
 - Frontend (Next.js)
